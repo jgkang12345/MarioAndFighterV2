@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="pch">
+      <UniqueIdentifier>{9e0bdd77-b650-43e3-8d9c-d4bf22009114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wnd">
+      <UniqueIdentifier>{4ca5b169-ff61-45ad-ae09-970e8381fcce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{2a227d92-b12c-486d-97e0-c1a21998c070}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="manager">
+      <UniqueIdentifier>{9464681f-1e3e-47eb-b7c2-93940977c4a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{bc39c0be-fd80-4abd-99a9-2c8437c570e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scene">
+      <UniqueIdentifier>{f1ddd86b-5227-4952-be22-34d28e0ca3d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{7d0ace2a-7322-428a-a538-e37d449b2973}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="GameWnd.cpp">
+      <Filter>wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="D2D1Core.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitmap.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioAndFighterApp.cpp" />
+    <ClCompile Include="FPSManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Nefendes.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadScene.cpp">
+      <Filter>wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="NefendesStandOffWeapon.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWnd.h">
+      <Filter>wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="D2D1Core.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmap.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioAndFighterApp.h" />
+    <ClInclude Include="FPSManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Macro.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUtils.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Nefendes.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadScene.h">
+      <Filter>wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="NefendesStandOffWeapon.h">
+      <Filter>object</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
