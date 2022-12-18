@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "NefendesStandOffWeapon.h"
 #include "Nefendes.h"
+#include "PlayerStandOffWeapon.h"
 mapSqList
 
 void GameScene::Init(GameWnd* _wnd)
@@ -32,11 +33,11 @@ void GameScene::Render(GameWnd* _wnd)
 	_wnd->GetBRT()->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 
 	std::vector<GameObject*> object_vector;
-	const int mapIndex = m_player->GetMapInedx();
-	Monster* monster = m_map[mapIndex]->GetMonster();
+	Monster* monster = m_map[m_player->GetMapInedx()]->GetMonster();
 	object_vector.push_back(monster);
 	object_vector.push_back(m_player);
 	object_vector.insert(std::end(object_vector), reinterpret_cast<Nefendes*>(monster)->GetMissiles().begin(), reinterpret_cast<Nefendes*>(monster)->GetMissiles().end());
+	object_vector.insert(std::end(object_vector), m_player->GetMissiles().begin(), m_player->GetMissiles().end());
 	sort(object_vector.begin(), object_vector.end(), [](GameObject* _left, GameObject* _right)
 		{
 			if (_left->GetPos().y != _right->GetPos().y)
@@ -44,13 +45,15 @@ void GameScene::Render(GameWnd* _wnd)
 			else
 				return _left->GetPos().x < _right->GetPos().x;
 		});
-	m_map[mapIndex]->Render(_wnd);
+	m_map[m_player->GetMapInedx()]->Render(_wnd);
 	for (auto& item : object_vector)
 	{
 		if (item->GetObjectType() == PlayerObj)
-			reinterpret_cast<Player*>(item)->Render(_wnd, m_type);
+			reinterpret_cast<Player*>(item)->Render(_wnd, m_map[m_player->GetMapInedx()], m_type);
 		else if (item->GetObjectType() == MStandOffObj)
 			reinterpret_cast<NefendesStandOffWeapon*>(item)->Render(_wnd, m_player);
+		else if (item->GetObjectType() == PStandOffObj)
+			reinterpret_cast<PlayerStandOffWeapon*>(item)->Render(_wnd, m_player);
 		else
 			reinterpret_cast<Monster*>(item)->Render(_wnd, m_type);
 	}

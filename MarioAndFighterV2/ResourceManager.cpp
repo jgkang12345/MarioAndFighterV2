@@ -4,6 +4,7 @@
 #include "FileUtils.h"
 #include "Sprite.h"
 #include "Animation.h"
+#include "PlayerJumpAnimation.h"
 ResourceManager* ResourceManager::m_instance = nullptr;
 ResourceManager::ResourceManager()
 {
@@ -78,6 +79,40 @@ void* ResourceManager::LoadBinaryData(const char* _path)
 					}
 					break;
 				}
+				}
+				delete[] bStream;
+			}
+			delete header;
+		}
+	}
+
+	return ret;
+}
+
+void* ResourceManager::LoadBinaryDataPlayerJump(const char* _path)
+{
+	void* ret = nullptr;
+	FILE* p_file = NULL;
+	fopen_s(&p_file, _path, "rb");
+	char exp[256];
+	if (p_file != NULL)
+	{
+		FileUtils::GetFileExp(_path, exp);
+		if (0 == strcmp(exp, "spr"))
+		{
+			SpriteBinaryFileHeader* header = new SpriteBinaryFileHeader();
+			fread(header, sizeof(SpriteBinaryFileHeader), 1, p_file);
+
+			if (header)
+			{
+				SpriteBinaryFileData* bStream = new SpriteBinaryFileData[header->spriteCount];
+				fread(bStream, sizeof(SpriteBinaryFileData), header->spriteCount, p_file);
+
+				ret = new PlayerJumpAnimation();
+				for (int i = 0; i < header->spriteCount; i++)
+				{
+					Sprite* sprite = new Sprite(bStream[i].rect, bStream[i].pivotPos);
+					reinterpret_cast<Animation*>(ret)->AddClip(sprite);
 				}
 				delete[] bStream;
 			}

@@ -29,5 +29,6 @@ public:
 	ID2D1HwndRenderTarget** GetRRT() { return &m_rt; }
 	HWND	GetHwnd() { return m_hwnd; }
 	void	SetBrush(D2D1::ColorF _color, ID2D1SolidColorBrush** _brsuh);
+	void    HPRender(const D2D1_RECT_F& _rect, int color);
 };
 

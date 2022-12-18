@@ -5,7 +5,7 @@
 class Sprite;
 class Animation
 {
-private:
+protected:
 	std::vector<Sprite*> m_clips;
 	int					 m_nowFrame = 0;
 

@@ -86,6 +86,11 @@
     <ClCompile Include="NefendesStandOffWeapon.cpp">
       <Filter>object</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerJumpAnimation.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStandOffWeapon.cpp" />
+    <ClCompile Include="HPBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -155,5 +160,10 @@
     <ClInclude Include="NefendesStandOffWeapon.h">
       <Filter>object</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerJumpAnimation.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStandOffWeapon.h" />
+    <ClInclude Include="HPBar.h" />
   </ItemGroup>
 </Project>

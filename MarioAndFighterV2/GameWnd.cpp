@@ -46,6 +46,8 @@ GameWnd::GameWnd(HINSTANCE _hInstance, const TCHAR* _title, const TCHAR* _classN
 	D2D1Core::GetInstance()->SetFontFormat(&m_textFormat, L"³ª´®°íµñ", 15.0f);
 	m_brush_vector.resize(BRUSH_COUNT);
 	SetBrush(D2D1::ColorF(D2D1::ColorF::Black, 0.6f), &m_brush_vector[0]);
+	SetBrush(D2D1::ColorF(D2D1::ColorF::Red, 1.0f), &m_brush_vector[1]);
+	SetBrush(D2D1::ColorF(D2D1::ColorF::Green, 1.0f), &m_brush_vector[2]);
 	ShowWindow(m_hwnd, _ncmdShow);
 	UpdateWindow(m_hwnd);
 }
@@ -144,4 +146,9 @@ void GameWnd::SetBrush(D2D1::ColorF _color, ID2D1SolidColorBrush** _brsuh)
 		_color,
 		_brsuh
 	);
+}
+
+void GameWnd::HPRender(const D2D1_RECT_F& _rect, int color)
+{
+	m_brt->FillRectangle(_rect, m_brush_vector[color]);
 }

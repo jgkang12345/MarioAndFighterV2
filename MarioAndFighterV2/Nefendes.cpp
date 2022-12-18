@@ -6,6 +6,7 @@
 #include "Bitmap.h"
 #include "Animation.h"
 #include "NefendesStandOffWeapon.h"
+#include "HPBar.h"
 const MONSTER_PATTERN pattern1[] =
 { MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL , MONSTER_IDEL };
 
@@ -68,6 +69,9 @@ void Nefendes::OVERWORLDUpdate(Map* _map, Player* _player)
 
 void Nefendes::BATTLEUpdate(Map* _map, Player* _player)
 {
+	if (m_HPbar == nullptr)
+		m_HPbar = new HPBar(this);
+
 	if (m_patternQ.empty() == false)
 	{
 		for (auto it = begin(m_missiles); it != end(m_missiles);)
@@ -139,7 +143,7 @@ void Nefendes::BATTLERender(GameWnd* _wnd)
 		{
 			const int height = m_lastFrame->GetRect().bottom - m_lastFrame->GetRect().top;
 			NefendesStandOffWeapon* missile = new NefendesStandOffWeapon();
-			missile->SetPos({ m_pos.x, (m_pos.y + (m_pos.y - height)) / 2 });
+			missile->SetPos({ m_pos.x, (m_pos.y + (m_pos.y - height)) / 2 + 5 });
 			if (m_isRotation)
 				missile->SetHPower(5);
 			else
@@ -155,6 +159,10 @@ void Nefendes::BATTLERender(GameWnd* _wnd)
 		}
 		break;
 	}
+
+	if (m_HPbar)
+		m_HPbar->Render(_wnd);
+
 	CommonRender(_wnd);
 }
 
@@ -171,4 +179,10 @@ void Nefendes::CommonRender(GameWnd* _wnd)
 	if (m_isRotation)
 		_wnd->GetBRT()->SetTransform(D2D1::Matrix3x2F::Identity());
 	m_damaged = false;
+}
+
+void Nefendes::Attacked(int damage)
+{
+	m_hp -= damage;
+	m_HPbar->Update();
 }

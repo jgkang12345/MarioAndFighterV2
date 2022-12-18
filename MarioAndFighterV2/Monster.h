@@ -29,6 +29,7 @@ public:
 	virtual void OVERWORLDRender(GameWnd* _wnd) abstract;
 	virtual void BATTLERender(GameWnd* _wnd) abstract;
 	virtual void CommonRender(GameWnd* _wnd) abstract;
+	bool IsCrash(const D2D1_RECT_F& _rect);
 	void SetImgKey(const char* _imgKey) { strcpy_s(m_imgKey, _imgKey); }
 };
 

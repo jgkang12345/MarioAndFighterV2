@@ -38,6 +38,7 @@ Map::Map(const char* _mapFilePath, Player* _player, GameWnd* _wnd)
 				{
 				case EVENT_TYPE::PlayerType:
 					_player->SetPos({ ((((x + 1) * TILESIZE) - (x * TILESIZE)) / 2) + (x * TILESIZE), y * TILESIZE + TILESIZE } );
+					m_playerStartPos = { ((((x + 1) * TILESIZE) - (x * TILESIZE)) / 2) + (x * TILESIZE), y * TILESIZE + TILESIZE };
 					break;
 
 				case EVENT_TYPE::NefendesType:

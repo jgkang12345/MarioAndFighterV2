@@ -14,6 +14,7 @@ private:
 	char		m_filePath[256];
 	char		m_imgFilePath[256];
 	Monster*	m_monster;
+	Pos			m_playerStartPos;
 public:
 	Map(const char* _mapFilePath, Player* _player, GameWnd* _wnd);
 	~Map();
@@ -24,5 +25,6 @@ public:
 	void  Render(GameWnd* _wnd);
 	Monster* GetMonster() { return m_monster; }
 	EVENT_TYPE	GetTileType(const Pos& pos);
+	Pos GetPlayerStartPos() { return m_playerStartPos; };
 };
 

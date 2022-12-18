@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "NefendesStandOffWeapon.h"
+#include "PlayerStandOffWeapon.h"
 #include "GameWnd.h"
 #include "Animation.h"
 #include "Sprite.h"
@@ -9,13 +9,14 @@
 #include "Map.h"
 #include <list>
 #include "Monster.h"
-NefendesStandOffWeapon::~NefendesStandOffWeapon()
+#include "Nefendes.h"
+PlayerStandOffWeapon::~PlayerStandOffWeapon()
 {
 	if (m_missile)
 		delete m_missile;
 }
 
-void NefendesStandOffWeapon::Update(Map* _map, Player* player)
+void PlayerStandOffWeapon::Update(Map* _map, std::vector<Map*>& _maplist)
 {
 	m_pos.x += m_hPower;
 
@@ -42,14 +43,23 @@ void NefendesStandOffWeapon::Update(Map* _map, Player* player)
 		break;
 	}
 
-	if (player->IsCrash(m_boundRect))
+	Monster* m = _map->GetMonster();
+	if (m->IsCrash(m_boundRect))
+		m_isDead = true;
+
+	if (m->IsCrash(m_boundRect))
 	{
-		player->Attacked(m_damage);
+		switch (m->GetObjectType())
+		{
+		case NefendesObj:
+			reinterpret_cast<Nefendes*>(m)->Attacked(m_damaged);
+			break;
+		}
 		m_isDead = true;
 	}
 }
 
-void NefendesStandOffWeapon::Render(GameWnd* _wnd, Player* player)
+void PlayerStandOffWeapon::Render(GameWnd* _wnd, Player* player)
 {
 	Sprite* sprite = m_missile->GetFrame();
 	const int width = abs((int)(sprite->GetRect().left - sprite->GetPivot().x));

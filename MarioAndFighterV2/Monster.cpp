@@ -13,3 +13,14 @@ Monster::~Monster()
 		if (item)
 			delete item;
 }
+
+bool Monster::IsCrash(const D2D1_RECT_F& _rect)
+{
+	if (m_boundRect.left > _rect.right || m_boundRect.right < _rect.left || m_boundRect.top > _rect.bottom || m_boundRect.bottom < _rect.top)
+		return false;
+	else
+	{
+		m_damaged = true;
+		return true;
+	}
+}

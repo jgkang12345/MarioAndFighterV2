@@ -2,7 +2,7 @@
 
 #define BRUSH_COUNT 100
 #define SCENE_COUNT	5
-#define PLAYER_ANIMATION_COUNT 7
+#define PLAYER_ANIMATION_COUNT 9
 #define NEFENDES_ANIMATION_COUNT 1
 #define MAP_COUNT 3
 #define TILESIZE 16
@@ -15,6 +15,7 @@
 #define boundH 30
 #define powerX 2
 #define powerY 2
-
+#define JUMP_MAX 40
+#define JUMP_POWER 3
 #define mapSqList const char* mapSq [] = {"stage1.map", "battle1.map", "stage2.map"};
 #define animationSqList const const char* AnimationSeq[] = { "playerLeftMove2.spr", "playerDownMove.spr", "playerUpMove.spr", "playerIdle.spr", "playerBattleAttack.spr", "playerBattleIdel.spr", "playerBattleMove.spr", "playerBattleLAttack.spr", "playerBattleJump.spr" };
