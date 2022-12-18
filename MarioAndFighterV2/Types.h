@@ -5,7 +5,7 @@
 enum SCENE_TYPE : int
 {
 	GAME = 0,
-	MENU = 1,
+	WELCOME = 1,
 	LOADING = 2,
 	ENDING = 3
 };

@@ -10,7 +10,7 @@ class SceneManager
 private:
 	static SceneManager* m_instance;
 	std::vector<Scene*>		m_scene_vector;
-	SCENE_TYPE				m_type = GAME;
+	SCENE_TYPE				m_type = WELCOME;
 public:
 	SceneManager() { };
 	~SceneManager() { Clean(); };

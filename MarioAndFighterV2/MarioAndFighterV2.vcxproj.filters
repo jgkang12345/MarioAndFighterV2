@@ -80,17 +80,22 @@
     <ClCompile Include="Nefendes.cpp">
       <Filter>object</Filter>
     </ClCompile>
-    <ClCompile Include="LoadScene.cpp">
-      <Filter>wnd</Filter>
-    </ClCompile>
     <ClCompile Include="NefendesStandOffWeapon.cpp">
       <Filter>object</Filter>
     </ClCompile>
     <ClCompile Include="PlayerJumpAnimation.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerStandOffWeapon.cpp" />
-    <ClCompile Include="HPBar.cpp" />
+    <ClCompile Include="PlayerStandOffWeapon.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="HPBar.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="WelcomeScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -154,16 +159,21 @@
     <ClInclude Include="Nefendes.h">
       <Filter>object</Filter>
     </ClInclude>
-    <ClInclude Include="LoadScene.h">
-      <Filter>wnd</Filter>
-    </ClInclude>
     <ClInclude Include="NefendesStandOffWeapon.h">
       <Filter>object</Filter>
     </ClInclude>
     <ClInclude Include="PlayerJumpAnimation.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerStandOffWeapon.h" />
-    <ClInclude Include="HPBar.h" />
+    <ClInclude Include="PlayerStandOffWeapon.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="HPBar.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="WelcomeScene.h" />
   </ItemGroup>
 </Project>
