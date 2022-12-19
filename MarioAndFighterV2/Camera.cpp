@@ -4,29 +4,19 @@
 #include "Map.h"
 void Camera::Init(const int& _x, const int& _y, Map* _map)
 {
-	int c_left = _x - cameraW;
-	int c_top = _y - cameraH;
-	int c_width = _x + cameraW;
-	int c_height = _y + cameraH;
+	int c_left = _x - (cameraW / 2);
+	int c_top = _y - (cameraH / 2);
+	int c_width = cameraW;
+	int c_height = cameraH;
 	if (c_left < 0)
 	{
 		c_left = 0;
-		c_width = cameraW * 2;
 	}
 	if (c_top < 0)
 	{
 		c_top = 0;
-		c_height = cameraH * 2;
 	}
-	if (c_width > (_map->GetXSize()) * TILESIZE)
-	{
-		c_width = (_map->GetXSize()) * TILESIZE;
-	}
-	if (c_height > (_map->GetYSize()) * TILESIZE)
-	{
-		c_height = (_map->GetYSize()) * TILESIZE;
-	}
-	D2D1_RECT_F cameraZone = { c_left, c_top, c_width, c_height };
+	D2D1_RECT_F cameraZone = { c_left, c_top, c_width+c_left, c_height+c_top };
 	SetCameraRect(cameraZone);
 }
 
@@ -42,9 +32,9 @@ void Camera::Update(Player* _player, Map* _map, GAME_TYPE _type)
 
 			int c_left = m_cameraRect.left + (hPower * 1);
 			int c_top = m_cameraRect.top + (vPower * 1);
-			int c_width = m_cameraRect.right + (hPower * 1);
-			int c_height = m_cameraRect.bottom + (vPower * 1);
-			D2D1_RECT_F cameraZone = { c_left, c_top, c_width, c_height };
+			// int c_width = m_cameraRect.right + (hPower * 1);
+			// int c_height = m_cameraRect.bottom + (vPower * 1);
+			D2D1_RECT_F cameraZone = { c_left, c_top, c_left + cameraW, c_top + cameraH };
 			m_cameraRect = cameraZone;
 		}
 		break;

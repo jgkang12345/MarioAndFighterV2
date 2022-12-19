@@ -4,6 +4,7 @@
 #include "GameScene.h"
 #include "LoadScene.h"
 #include "WelcomeScene.h"
+#include "Player.h"
 SceneManager* SceneManager::m_instance = nullptr;
 
 SceneManager* SceneManager::GetInstance()
@@ -17,12 +18,18 @@ void SceneManager::Init(GameWnd* _wnd)
 {
 	m_scene_vector.resize(SCENE_COUNT);
 	m_scene_vector[SCENE_TYPE::GAME] = new GameScene(_wnd);
+	m_scene_vector[SCENE_TYPE::GAME]->Init(_wnd);
 	m_scene_vector[SCENE_TYPE::LOADING] = new LoadScene(_wnd);
 	m_scene_vector[SCENE_TYPE::WELCOME] = new WelcomeScene(_wnd);
 }
 
 void SceneManager::Update(GameWnd* _wnd)
 {
+	if (m_type == GAME) 
+		if (m_scene_vector[m_type] && reinterpret_cast<GameScene*>(m_scene_vector[m_type])->GetPlayer())
+			if (reinterpret_cast<GameScene*>(m_scene_vector[m_type])->GetPlayer()->IsDead())
+				reinterpret_cast<GameScene*>(m_scene_vector[m_type])->Refresh();
+		
 	m_scene_vector[m_type]->Update(_wnd);
 }
 

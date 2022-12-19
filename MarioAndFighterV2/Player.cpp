@@ -118,6 +118,8 @@ void Player::OVERWORLDUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _w
 		{
 			char target[] = "battle";
 			SceneManager::GetInstance()->SetSceen(LOADING);
+			if (_mapLIst[m_mapSeq] != nullptr)
+				delete _mapLIst[m_mapSeq];
 			_mapLIst[m_mapSeq] = new Map(mapSq[m_mapSeq], this, _wnd);
 			if (NULL != strstr(_mapLIst[m_mapSeq]->GetFileName(), target))
 			{
@@ -571,4 +573,24 @@ void Player::Attacked(int damage)
 {
 	m_hp -= damage;
 	m_HPbar->Update();
+	if (m_hp == 0)
+		Dead();
+}
+
+void Player::Dead()
+{
+	m_isDead = true;
+	m_mapSeq = 0;
+}
+
+void Player::SetInit() 
+{
+	HPInit();
+	m_isDead = false;
+	m_HPbar->Update();
+	m_lastSprite = m_animation_vector[OVERWORLD_IDLE]->GetFirst();
+	for (auto& item : m_missiles)
+		if (item)
+			delete item;
+	m_missiles.clear();
 }

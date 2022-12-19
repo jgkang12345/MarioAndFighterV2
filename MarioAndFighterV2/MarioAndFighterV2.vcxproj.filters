@@ -95,7 +95,9 @@
     <ClCompile Include="LoadScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="WelcomeScene.cpp" />
+    <ClCompile Include="WelcomeScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -174,6 +176,8 @@
     <ClInclude Include="LoadScene.h">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="WelcomeScene.h" />
+    <ClInclude Include="WelcomeScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

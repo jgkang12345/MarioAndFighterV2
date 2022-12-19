@@ -45,6 +45,7 @@ private:
 	int									m_stand_off_damage = 2;
 	int									m_damage = 10;
 	HPBar*								m_HPbar = nullptr;
+	bool								m_isDead = false;
 
 public:
 	Player(const char* _imgKey, const char* _bitmapKey);
@@ -69,5 +70,9 @@ public:
 	int  GetHp() { return m_hp; }
 	void Attacked(int damage);
 	Sprite* GetLastSprite() { return m_lastSprite; }
+	void Dead();
+	bool IsDead() { return m_isDead; };
+	void HPInit() { m_hp = 150;}
+	void SetInit();
 };
 

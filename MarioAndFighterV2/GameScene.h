@@ -18,7 +18,7 @@ public:
 	GameScene(GameWnd* _wnd) { Init(_wnd); }
 	GameScene(const char* _mapPath, const char* _playerPath, GameWnd* _wnd)
 	{
-		Init(_wnd);
+	
 	}
 	~GameScene()
 	{
@@ -35,5 +35,7 @@ public:
 
 public:
 	void SetGameType(GAME_TYPE _type) { m_type = _type; }
+	Player* GetPlayer() { return m_player; }
+	void Refresh();
 };
 

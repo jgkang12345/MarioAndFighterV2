@@ -129,6 +129,23 @@ void Nefendes::OVERWORLDRender(GameWnd* _wnd)
 
 void Nefendes::BATTLERender(GameWnd* _wnd)
 {
+	if (m_patternQ.empty())
+		switch (dis(gen) % 3)
+		{
+		case 0:
+			for (auto& item : pattern1)
+				m_patternQ.push(item);
+			break;
+		case 1:
+			for (auto& item : pattern2)
+				m_patternQ.push(item);
+			break;
+		case 2:
+			for (auto& item : pattern3)
+				m_patternQ.push(item);
+			break;
+		}
+
 	switch (m_patternQ.front())
 	{
 	case MONSTER_IDEL:

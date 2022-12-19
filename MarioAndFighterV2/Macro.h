@@ -9,10 +9,8 @@
 #define A 65
 #define S 83
 #define D 68
-#define cameraW	150
-#define cameraH 150
-#define boundW 30
-#define boundH 30
+#define cameraW	207
+#define cameraH 155
 #define powerX 2
 #define powerY 2
 #define JUMP_MAX 40

@@ -66,6 +66,8 @@ void* ResourceManager::LoadBinaryData(const char* _path)
 				case SPRITE:
 					for (int i = 0; i < header->spriteCount; i++)
 					{
+						bStream[i].rect.right += 1;
+						bStream[i].rect.bottom += 1;
 						ret = new Sprite(bStream[i].rect, bStream[i].pivotPos);
 					}
 					break;
@@ -74,6 +76,8 @@ void* ResourceManager::LoadBinaryData(const char* _path)
 					ret = new Animation();
 					for (int i = 0; i < header->spriteCount; i++)
 					{
+						bStream[i].rect.right += 1;
+						bStream[i].rect.bottom += 1;
 						Sprite* sprite = new Sprite(bStream[i].rect, bStream[i].pivotPos);
 						reinterpret_cast<Animation*>(ret)->AddClip(sprite);
 					}
@@ -111,6 +115,8 @@ void* ResourceManager::LoadBinaryDataPlayerJump(const char* _path)
 				ret = new PlayerJumpAnimation();
 				for (int i = 0; i < header->spriteCount; i++)
 				{
+					bStream[i].rect.right += 2;
+					bStream[i].rect.bottom += 2;
 					Sprite* sprite = new Sprite(bStream[i].rect, bStream[i].pivotPos);
 					reinterpret_cast<Animation*>(ret)->AddClip(sprite);
 				}

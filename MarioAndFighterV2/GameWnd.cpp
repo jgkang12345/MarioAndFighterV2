@@ -30,12 +30,14 @@ GameWnd::GameWnd(HINSTANCE _hInstance, const TCHAR* _title, const TCHAR* _classN
 		return;
 	}
 
+	RECT rc = { 0, 0, m_width, m_height };
+	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	m_hwnd = CreateWindow(
 		_className,
 		_title,
-		WS_OVERLAPPEDWINDOW,
+		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 		1200, 0,
-		_width, _height,
+		rc.right - rc.left, rc.bottom - rc.top,
 		NULL,
 		NULL,
 		_hInstance,

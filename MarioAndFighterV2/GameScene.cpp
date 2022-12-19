@@ -8,14 +8,16 @@
 #include "NefendesStandOffWeapon.h"
 #include "Nefendes.h"
 #include "PlayerStandOffWeapon.h"
+#include "SceneManager.h"
 mapSqList
 
 void GameScene::Init(GameWnd* _wnd)
 {
-	m_map.resize(MAP_COUNT);
+	m_map.resize(MAP_COUNT, nullptr);
 	m_player = new Player("overworld_mario.png", "battleMario.png");
 	m_map[m_player->GetMapInedx()] = new Map(mapSq[m_player->GetMapInedx()], m_player, _wnd);
 	m_camera = new Camera(m_player->GetPos().x, m_player->GetPos().y, *m_map.begin());
+	m_type = OVERWORLD;
 }
 
 void GameScene::Update(GameWnd* _wnd)
@@ -66,6 +68,7 @@ void GameScene::Render(GameWnd* _wnd)
 	D2D1_RECT_F rt_dest = { rect.left, rect.top, rect.right, rect.bottom };
 	if (bitmap)
 		_wnd->GetRT()->DrawBitmap(bitmap, rt_dest, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, m_camera->GetCameraRect());
+		//_wnd->GetRT()->DrawBitmap(bitmap, rt_dest, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, m_camera->GetCameraRect());
 	_wnd->GetRT()->EndDraw();
 }
 
@@ -84,9 +87,21 @@ void GameScene::Clean()
 	for (auto& item : m_map)
 		if (item)
 			delete item;
-
 	m_map.clear();
 
 	if (m_player)
+	{
 		delete m_player;
+		m_player = nullptr;
+	}
+}
+
+void GameScene::Refresh()
+{
+	m_player->SetPos(m_map[m_player->GetMapInedx()]->GetPlayerStartPos());
+	m_player->SetInit();
+	// m_map[m_player->GetMapInedx()]->GetMonster();
+	m_camera->Init(m_player->GetPos().x, m_player->GetPos().y, m_map[m_player->GetMapInedx()]);
+	m_type = OVERWORLD;
+	SceneManager::GetInstance()->SetSceen(WELCOME);
 }
