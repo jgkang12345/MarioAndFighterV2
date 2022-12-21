@@ -62,7 +62,8 @@ enum OBJECT_TYPE
 	GhostObj = 300,
 	KumaObj = 400,
 	PStandOffObj = 500,
-	MStandOffObj = 600
+	MStandOffObj = 600,
+	GStandOffObj = 700
 };
 
 /// <summary>
@@ -116,5 +117,7 @@ struct MapDataBinaryFile
 enum MONSTER_PATTERN : int
 {
 	MONSTER_IDEL,
-	MONSTER_STAND_OFF_ATTACK
+	MONSTER_STAND_OFF_ATTACK,
+	MONSTER_ATTACK,
+	MONSTER_PMOVE
 };

@@ -14,10 +14,11 @@
 #include "PlayerStandOffWeapon.h"
 #include "HPBar.h"
 #include "Nefendes.h"
+#include "Ghost.h"
 animationSqList
-enum PLAYER_ANIMATION_TYPE : int 
+enum PLAYER_ANIMATION_TYPE : int
 {
-	OVERWORLD_RIGHT_MOVE = 0,	
+	OVERWORLD_RIGHT_MOVE = 0,
 	OVERWORLD_DOWN_MOVE = 1,
 	OVERWORLD_TOP_MOVE = 2,
 	OVERWORLD_IDLE = 3,
@@ -25,7 +26,9 @@ enum PLAYER_ANIMATION_TYPE : int
 	BATTLE_IDLE = 5,
 	BATTLE_MOVE = 6,
 	BATTLE_STAND_OFF_ATTACK = 7,
-	BATTLE_JUMP = 8
+	BATTLE_JUMP = 8,
+	BATTLE_DEAD = 9,
+	BATTLE_WIN = 10
 };
 
 Player::Player(const char* _imgKey, const char* _bitmapKey) :GameObject(PlayerObj)
@@ -91,7 +94,7 @@ void Player::OVERWORLDUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _w
 	case GhostType:
 		m_vPower = 0;
 		m_hPower = 0;
-		// mapNext = true;
+		mapNext = true;
 		break;
 	case KumaType:
 		m_vPower = 0;
@@ -131,7 +134,7 @@ void Player::OVERWORLDUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _w
 				SceneManager::GetInstance()->GetGameScene()->SetGameType(OVERWORLD);
 				m_lastSprite = m_animation_vector[OVERWORLD_IDLE]->GetFirst();
 			}				
-			m_camera = new Camera(this->GetPos().x, this->GetPos().y, _mapLIst[m_mapSeq]);
+			SceneManager::GetInstance()->GetGameScene()->GetCamera()->Init(this->GetPos().x, this->GetPos().y, _mapLIst[m_mapSeq]);
 			m_dir = Dir::NONE;
 		}
 		else
@@ -143,7 +146,7 @@ void Player::OVERWORLDUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _w
 
 void Player::BATTLEUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _wnd)
 {
-	bool mapNext = false;
+
 	const int bottomLine = _map->GetPlayerStartPos().y;
 	const int topLine = _map->GetPlayerStartPos().y - JUMP_MAX;
 
@@ -204,12 +207,9 @@ void Player::BATTLEUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _wnd)
 	case NefendesType:
 		m_vPower = 0;
 		m_hPower = 0;
-		mapNext = true;
 		break;
 	case GhostType:
-		m_vPower = 0;
-		m_hPower = 0;
-		// mapNext = true;
+		m_pos = nextPos;
 		break;
 	case KumaType:
 		m_vPower = 0;
@@ -239,6 +239,43 @@ void Player::BATTLEUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _wnd)
 		{
 			(*it)->Update(_map, _mapLIst);
 			it++;
+		}
+	}
+
+	if (m_mapNext)
+	{
+			mapSqList
+			m_mapSeq = m_mapSeq + 1;
+		if (m_mapSeq < MAP_COUNT)
+		{
+			char target[] = "battle";
+			SceneManager::GetInstance()->SetSceen(LOADING);
+			if (_mapLIst[m_mapSeq] != nullptr)
+				delete _mapLIst[m_mapSeq];
+			_mapLIst[m_mapSeq] = new Map(mapSq[m_mapSeq], this, _wnd);
+			if (NULL != strstr(_mapLIst[m_mapSeq]->GetFileName(), target))
+			{
+				SceneManager::GetInstance()->GetGameScene()->SetGameType(BATTLE);
+				m_lastSprite = m_animation_vector[BATTLE_IDLE]->GetFirst();
+			}
+			else
+			{
+				SceneManager::GetInstance()->GetGameScene()->SetGameType(OVERWORLD);
+				m_lastSprite = m_animation_vector[OVERWORLD_IDLE]->GetFirst();
+			}
+
+			for (auto& item : m_missiles)
+				if (item) delete item;
+
+			m_missiles.clear();
+
+			SceneManager::GetInstance()->GetGameScene()->GetCamera()->Init(this->GetPos().x, this->GetPos().y, _mapLIst[m_mapSeq]);
+			m_dir = Dir::NONE;
+			m_mapNext = false;
+		}
+		else
+		{
+			m_mapSeq--;
 		}
 	}
 }
@@ -343,7 +380,10 @@ void Player::BATTLERender(GameWnd* _wnd, Map* _map)
 				case NefendesObj:
 					reinterpret_cast<Nefendes*>(_map->GetMonster())->Attacked(m_damage);
 					break;
-		
+
+				case GhostObj:
+					reinterpret_cast<Ghost*>(_map->GetMonster())->Attacked(m_damage);
+					break;
 				}
 			}
 			m_animation_vector[BATTLE_ATTACK]->Init();
@@ -379,6 +419,46 @@ void Player::BATTLERender(GameWnd* _wnd, Map* _map)
 
 	if (m_HPbar)
 		m_HPbar->Render(_wnd);
+
+	if (m_isDeadRender)
+	{
+		m_lastSprite = m_animation_vector[BATTLE_DEAD]->GetFrameNoAuto();
+		if (m_animation_vector[BATTLE_DEAD]->GetFrameCount() == m_animation_vector[BATTLE_DEAD]->GetNowFrame())
+		{
+			if (m_renderCnt == 2)
+			{
+				Dead();
+				m_isDeadRender = false;
+				m_renderCnt = 0;
+			}
+			else
+			{
+				m_renderCnt++;
+			}
+			m_animation_vector[BATTLE_DEAD]->Init();
+		}
+	}
+
+	if (m_isWin)
+	{
+		m_lastSprite = m_animation_vector[BATTLE_WIN]->GetFrameNoAuto();
+		if (m_animation_vector[BATTLE_WIN]->GetFrameCount() == m_animation_vector[BATTLE_WIN]->GetNowFrame())
+		{
+			if (m_renderCnt == 2)
+			{
+				m_isWin = false;
+				m_mapNext = true;
+				m_renderCnt = 0;
+			}
+			else
+			{
+				m_renderCnt++;
+			}
+			m_animation_vector[BATTLE_WIN]->Init();
+		}
+	}
+
+
 	CommonRender(_wnd, m_lastSprite, m_isRotation, m_bitmapKey);
 }
 
@@ -573,8 +653,8 @@ void Player::Attacked(int damage)
 {
 	m_hp -= damage;
 	m_HPbar->Update();
-	if (m_hp == 0)
-		Dead();
+	if (m_hp <= 0)
+		m_isDeadRender = true;
 }
 
 void Player::Dead()

@@ -1,19 +1,23 @@
 #pragma once
 #include "Monster.h"
-class NefendesStandOffWeapon;
 class HPBar;
-class Nefendes : public Monster
+class GameWnd;
+class Map;
+class Player;
+class GhostStandOffWeapon;
+class Ghost : public Monster
 {
 private:
 	std::queue<MONSTER_PATTERN>			 m_patternQ;
-	std::vector<NefendesStandOffWeapon*> m_missiles;
-	int									 m_hp = 200;
-	int									 m_stand_off_damage = 10;
-	HPBar*								 m_HPbar = nullptr;
+	std::vector<GhostStandOffWeapon*>	 m_missiles;
+	int									 m_hp = 250;
+	int									 m_stand_off_damage = 20;
+	int									 m_attack = 5;
+	HPBar* m_HPbar = nullptr;
 	bool								 m_isDead = false;
 public:
-	Nefendes(OBJECT_TYPE _type, GameWnd* _wnd);
-	~Nefendes();
+	Ghost(OBJECT_TYPE _type, GameWnd* _wnd);
+	~Ghost();
 public:
 	virtual void Init(GameWnd* _wnd) override;
 	virtual void Update(Map* _map, Player* _player, GAME_TYPE _type) override;
@@ -26,6 +30,6 @@ public:
 	int  GetHp() { return m_hp; }
 	bool IsDead() { return m_isDead; }
 	void Attacked(int damage);
-	std::vector<NefendesStandOffWeapon*>& GetMissiles() { return m_missiles; }
+	std::vector<GhostStandOffWeapon*>& GetMissiles() { return m_missiles; }
 };
 

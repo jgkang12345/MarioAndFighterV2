@@ -46,6 +46,10 @@ private:
 	int									m_damage = 10;
 	HPBar*								m_HPbar = nullptr;
 	bool								m_isDead = false;
+	bool								m_isDeadRender = false;
+	bool								m_isWin = false;
+	int									m_renderCnt = 0;
+	bool								m_mapNext = false;
 
 public:
 	Player(const char* _imgKey, const char* _bitmapKey);
@@ -74,5 +78,8 @@ public:
 	bool IsDead() { return m_isDead; };
 	void HPInit() { m_hp = 150;}
 	void SetInit();
+	bool IsRenderDead() { return m_isDeadRender; }
+	bool IsWin() { return m_isWin; }
+	void SetIsWin() { m_isWin = true; }
 };
 

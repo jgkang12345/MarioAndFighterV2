@@ -98,6 +98,15 @@
     <ClCompile Include="WelcomeScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="GhostStandOffWeapon.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Kuma.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -178,6 +187,15 @@
     </ClInclude>
     <ClInclude Include="WelcomeScene.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghost.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="GhostStandOffWeapon.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Kuma.h">
+      <Filter>object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

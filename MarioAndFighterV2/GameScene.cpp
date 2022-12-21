@@ -9,6 +9,8 @@
 #include "Nefendes.h"
 #include "PlayerStandOffWeapon.h"
 #include "SceneManager.h"
+#include "GhostStandOffWeapon.h"
+#include "Ghost.h"
 mapSqList
 
 void GameScene::Init(GameWnd* _wnd)
@@ -22,8 +24,22 @@ void GameScene::Init(GameWnd* _wnd)
 
 void GameScene::Update(GameWnd* _wnd)
 {
-	m_player->Update(m_map[m_player->GetMapInedx()], m_type, m_map, _wnd);
+	if (!m_player->IsRenderDead() && !m_player->IsDead() )
+		m_player->Update(m_map[m_player->GetMapInedx()], m_type, m_map, _wnd);
 	Monster* monster = m_map[m_player->GetMapInedx()]->GetMonster();
+	switch (monster->GetObjectType())
+	{
+	case NefendesObj:
+		if (reinterpret_cast<Nefendes*>(monster)->IsDead())
+			m_player->SetIsWin();
+		break;
+
+	case GhostObj:
+		if (reinterpret_cast<Ghost*>(monster)->IsDead())
+			m_player->SetIsWin();
+		break;
+	}
+
 	monster->Update(m_map[m_player->GetMapInedx()], m_player, m_type);
 	m_camera->Update(m_player,m_map[m_player->GetMapInedx()],m_type);
 }
@@ -38,7 +54,18 @@ void GameScene::Render(GameWnd* _wnd)
 	Monster* monster = m_map[m_player->GetMapInedx()]->GetMonster();
 	object_vector.push_back(monster);
 	object_vector.push_back(m_player);
-	object_vector.insert(std::end(object_vector), reinterpret_cast<Nefendes*>(monster)->GetMissiles().begin(), reinterpret_cast<Nefendes*>(monster)->GetMissiles().end());
+
+	switch (monster->GetObjectType())
+	{
+	case NefendesObj:
+		object_vector.insert(std::end(object_vector), reinterpret_cast<Nefendes*>(monster)->GetMissiles().begin(), reinterpret_cast<Nefendes*>(monster)->GetMissiles().end());
+		break;
+		
+	case GhostObj:
+		object_vector.insert(std::end(object_vector), reinterpret_cast<Ghost*>(monster)->GetMissiles().begin(), reinterpret_cast<Ghost*>(monster)->GetMissiles().end());
+		break;
+	}
+
 	object_vector.insert(std::end(object_vector), m_player->GetMissiles().begin(), m_player->GetMissiles().end());
 	sort(object_vector.begin(), object_vector.end(), [](GameObject* _left, GameObject* _right)
 		{
@@ -56,6 +83,8 @@ void GameScene::Render(GameWnd* _wnd)
 			reinterpret_cast<NefendesStandOffWeapon*>(item)->Render(_wnd, m_player);
 		else if (item->GetObjectType() == PStandOffObj)
 			reinterpret_cast<PlayerStandOffWeapon*>(item)->Render(_wnd, m_player);
+		else if (item->GetObjectType() == GStandOffObj)
+			reinterpret_cast<GhostStandOffWeapon*>(item)->Render(_wnd, m_player);
 		else
 			reinterpret_cast<Monster*>(item)->Render(_wnd, m_type);
 	}
@@ -74,7 +103,8 @@ void GameScene::Render(GameWnd* _wnd)
 
 void GameScene::KeyDownBind(WPARAM _param)
 {
-	m_player->KeyDownBind(_param, m_type);
+	if (m_player->IsRenderDead() == false && m_player->IsWin() == false)
+		m_player->KeyDownBind(_param, m_type);
 }
 
 void GameScene::KeyUpBind(WPARAM _param)

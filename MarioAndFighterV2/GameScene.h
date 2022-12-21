@@ -37,5 +37,6 @@ public:
 	void SetGameType(GAME_TYPE _type) { m_type = _type; }
 	Player* GetPlayer() { return m_player; }
 	void Refresh();
+	Camera* GetCamera() { return m_camera; }
 };
 

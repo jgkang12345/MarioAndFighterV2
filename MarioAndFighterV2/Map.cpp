@@ -8,6 +8,8 @@
 #include "Bitmap.h"
 #include "D2D1Core.h"
 #include "Nefendes.h"
+#include "Ghost.h"
+#include "Kuma.h"
 Map::Map(const char* _mapFilePath, Player* _player, GameWnd* _wnd)
 {
 	FILE* p_file = NULL;
@@ -47,13 +49,13 @@ Map::Map(const char* _mapFilePath, Player* _player, GameWnd* _wnd)
 					break;
 
 				case EVENT_TYPE::GhostType:
-					// m_monster = new Monster(GhostObj, _wnd);
-					// m_monster->SetPos({ ((((x + 1) * TILESIZE) - (x * TILESIZE)) / 2) + (x * TILESIZE), y * TILESIZE + TILESIZE });
+					 m_monster = new Ghost(GhostObj, _wnd);
+					 m_monster->SetPos({ ((((x + 1) * TILESIZE) - (x * TILESIZE)) / 2) + (x * TILESIZE), y * TILESIZE + TILESIZE });
 					break;
 
 				case EVENT_TYPE::KumaType:
-					// m_monster = new Monster(KumaObj, _wnd);
-					// m_monster->SetPos({ ((((x + 1) * TILESIZE) - (x * TILESIZE)) / 2) + (x * TILESIZE), y * TILESIZE + TILESIZE });
+					 m_monster = new Kuma(KumaObj, _wnd);
+					 m_monster->SetPos({ ((((x + 1) * TILESIZE) - (x * TILESIZE)) / 2) + (x * TILESIZE), y * TILESIZE + TILESIZE });
 					break;
 				default:
 					break;

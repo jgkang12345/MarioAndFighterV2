@@ -1,37 +1,37 @@
 #include "pch.h"
-#include "Nefendes.h"
+#include "Kuma.h"
 #include "ResourceManager.h"
+#include "Animation.h"
 #include "GameWnd.h"
 #include "Sprite.h"
 #include "Bitmap.h"
-#include "Animation.h"
-#include "NefendesStandOffWeapon.h"
 #include "HPBar.h"
+#include "GhostStandOffWeapon.h"
+#include "SceneManager.h"
+#include "GameScene.h"
+#include "Player.h"
+
+enum KUMA_ANIMATION_TYPE : int
+{
+	KUMA_OVERWORLD_IDLE = 0
+};
+
 const MONSTER_PATTERN pattern1[] =
 { MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL , MONSTER_IDEL };
 
 const MONSTER_PATTERN pattern2[] =
-{ MONSTER_STAND_OFF_ATTACK, MONSTER_STAND_OFF_ATTACK, MONSTER_IDEL, MONSTER_STAND_OFF_ATTACK, MONSTER_IDEL, MONSTER_STAND_OFF_ATTACK , MONSTER_IDEL };
+{ MONSTER_STAND_OFF_ATTACK, MONSTER_IDEL, MONSTER_IDEL, MONSTER_PMOVE, MONSTER_IDEL, MONSTER_PMOVE , MONSTER_IDEL };
 
 const MONSTER_PATTERN pattern3[] =
-{ MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL , MONSTER_IDEL };
+{ MONSTER_PMOVE, MONSTER_STAND_OFF_ATTACK, MONSTER_IDEL, MONSTER_IDEL, MONSTER_IDEL, MONSTER_PMOVE , MONSTER_PMOVE };
 
-enum NefendesSpecifiFrame 
-{
-	ATTACK_FRAME = 11
-};
 
-enum NEFENDES_ANIMATION_TYPE : int
-{
-	NEFENDES_OVERWORLD_IDLE = 0
-};
-
-Nefendes::Nefendes(OBJECT_TYPE _type, GameWnd* _wnd) : Monster(_type, _wnd)
+Kuma::Kuma(OBJECT_TYPE _type, GameWnd* _wnd) : Monster(_type, _wnd)
 {
 	Init(_wnd);
 }
 
-Nefendes::~Nefendes()
+Kuma::~Kuma()
 {
 	for (auto& item : m_missiles)
 		if (item)
@@ -40,16 +40,16 @@ Nefendes::~Nefendes()
 	m_missiles.clear();
 }
 
-void Nefendes::Init(GameWnd* _wnd)
+void Kuma::Init(GameWnd* _wnd)
 {
-	SetImgKey("NefendesObj.png");
+	SetImgKey("Kuma.png");
 	m_animation_vector.resize(NEFENDES_ANIMATION_COUNT);
-	m_animation_vector[NEFENDES_OVERWORLD_IDLE] = reinterpret_cast<Animation*>(ResourceManager::GetInstance()->LoadBinaryData("NeftendesAnimation.spr"));
-	m_lastFrame = m_animation_vector[NEFENDES_OVERWORLD_IDLE]->GetFirst();
+	m_animation_vector[KUMA_OVERWORLD_IDLE] = reinterpret_cast<Animation*>(ResourceManager::GetInstance()->LoadBinaryData("kumaIdel.spr"));
+	m_lastFrame = m_animation_vector[KUMA_OVERWORLD_IDLE]->GetFirst();
 	ResourceManager::GetInstance()->GetBitmap(GetFilePath(), _wnd->GetRRT());
 }
 
-void Nefendes::Update(Map* _map, Player* _player, GAME_TYPE _type)
+void Kuma::Update(Map* _map, Player* _player, GAME_TYPE _type)
 {
 	switch (_type)
 	{
@@ -62,12 +62,11 @@ void Nefendes::Update(Map* _map, Player* _player, GAME_TYPE _type)
 	}
 }
 
-void Nefendes::OVERWORLDUpdate(Map* _map, Player* _player)
+void Kuma::OVERWORLDUpdate(Map* _map, Player* _player)
 {
-
 }
 
-void Nefendes::BATTLEUpdate(Map* _map, Player* _player)
+void Kuma::BATTLEUpdate(Map* _map, Player* _player)
 {
 	if (!m_isDead)
 	{
@@ -111,7 +110,7 @@ void Nefendes::BATTLEUpdate(Map* _map, Player* _player)
 	}
 }
 
-void Nefendes::Render(GameWnd* _wnd, GAME_TYPE _type)
+void Kuma::Render(GameWnd* _wnd, GAME_TYPE _type)
 {
 	switch (_type)
 	{
@@ -124,15 +123,14 @@ void Nefendes::Render(GameWnd* _wnd, GAME_TYPE _type)
 	}
 }
 
-void Nefendes::OVERWORLDRender(GameWnd* _wnd)
+void Kuma::OVERWORLDRender(GameWnd* _wnd)
 {
-	m_lastFrame = m_animation_vector[NEFENDES_OVERWORLD_IDLE]->GetFrame();
+	m_lastFrame = m_animation_vector[KUMA_OVERWORLD_IDLE]->GetFrame();
 	CommonRender(_wnd);
 }
 
-void Nefendes::BATTLERender(GameWnd* _wnd)
+void Kuma::BATTLERender(GameWnd* _wnd)
 {
-
 	if (!m_isDead)
 	{
 		if (m_patternQ.empty())
@@ -155,29 +153,55 @@ void Nefendes::BATTLERender(GameWnd* _wnd)
 		switch (m_patternQ.front())
 		{
 		case MONSTER_IDEL:
-			m_lastFrame = m_animation_vector[NEFENDES_OVERWORLD_IDLE]->GetFirst();
+			m_lastFrame = m_animation_vector[KUMA_OVERWORLD_IDLE]->GetFirst();
 			m_patternQ.pop();
 			break;
 
 		case MONSTER_STAND_OFF_ATTACK:
-			m_lastFrame = m_animation_vector[NEFENDES_OVERWORLD_IDLE]->GetFrameNoAuto();
+			m_lastFrame = m_animation_vector[KUMA_OVERWORLD_IDLE]->GetFrameNoAuto();
 
-			if (m_animation_vector[NEFENDES_OVERWORLD_IDLE]->GetNowFrame() == ATTACK_FRAME)
+			if (m_animation_vector[KUMA_OVERWORLD_IDLE]->GetNowFrame() == m_animation_vector[KUMA_OVERWORLD_IDLE]->GetFrameCount())
 			{
 				const int height = m_lastFrame->GetRect().bottom - m_lastFrame->GetRect().top;
-				NefendesStandOffWeapon* missile = new NefendesStandOffWeapon();
-				missile->SetPos({ m_pos.x, (m_pos.y + (m_pos.y - height)) / 2 + 5 });
+				GhostStandOffWeapon* missile = new GhostStandOffWeapon(this);
+				missile->SetPos({ m_pos.x,m_pos.y - 5 });
 				if (m_isRotation)
 					missile->SetHPower(5);
 				else
 					missile->SetHPower(-5);
-				Animation* missileAnimation = reinterpret_cast<Animation*>(ResourceManager::GetInstance()->LoadBinaryData("missile.spr"));
+				Animation* missileAnimation = reinterpret_cast<Animation*>(ResourceManager::GetInstance()->LoadBinaryData("GhostStandOff2.spr"));
 				missile->SetMissileAnimation(missileAnimation);
 				m_missiles.push_back(missile);
+
+				m_animation_vector[KUMA_OVERWORLD_IDLE]->Init();
+				m_patternQ.pop();
 			}
-			if (m_animation_vector[NEFENDES_OVERWORLD_IDLE]->GetNowFrame() == m_animation_vector[NEFENDES_OVERWORLD_IDLE]->GetFrameCount())
+			break;
+
+
+		case MONSTER_PMOVE:
+			m_lastFrame = m_animation_vector[KUMA_OVERWORLD_IDLE]->GetFrameNoAuto();
+
+			Pos playerPos = SceneManager::GetInstance()->GetGameScene()->GetPlayer()->GetPos();
+			int dir = 1;
+			if (m_pos.x > playerPos.x)
 			{
-				m_animation_vector[NEFENDES_OVERWORLD_IDLE]->Init();
+				dir *= -1;
+				m_dir = Dir::LEFT;
+				m_isRotation = false;
+			}
+			else
+			{
+				m_dir = Dir::RIGHT;
+				m_isRotation = true;
+			}
+
+			int move = 1;
+			m_pos.x += move * dir;
+
+			if (m_animation_vector[KUMA_OVERWORLD_IDLE]->GetNowFrame() == m_animation_vector[KUMA_OVERWORLD_IDLE]->GetFrameCount())
+			{
+				m_animation_vector[KUMA_OVERWORLD_IDLE]->Init();
 				m_patternQ.pop();
 			}
 			break;
@@ -186,18 +210,18 @@ void Nefendes::BATTLERender(GameWnd* _wnd)
 		if (m_HPbar)
 			m_HPbar->Render(_wnd);
 	}
-	
+
 	CommonRender(_wnd);
 }
 
-void Nefendes::CommonRender(GameWnd* _wnd)
+void Kuma::CommonRender(GameWnd* _wnd)
 {
 	const int width = abs((int)(m_lastFrame->GetRect().left - m_lastFrame->GetPivot().x));
 	const int height = abs((int)(m_lastFrame->GetRect().top - m_lastFrame->GetPivot().y));
 	FLOAT opacity = m_damaged ? 0.5f : 1.0f;
 	D2D1_RECT_F dest = { m_pos.x - width, m_pos.y - height, m_pos.x + width, m_pos.y };
 	m_boundRect = dest;
-	if (m_isDead) 
+	if (m_isDead)
 		opacity = 0.2f;
 	if (m_isRotation)
 		_wnd->GetBRT()->SetTransform(D2D1::Matrix3x2F::Scale(-1.0, 1.0, D2D1::Point2F(m_pos.x, m_pos.x)));
@@ -207,10 +231,10 @@ void Nefendes::CommonRender(GameWnd* _wnd)
 	m_damaged = false;
 }
 
-void Nefendes::Attacked(int damage)
+void Kuma::Attacked(int damage)
 {
 	m_hp -= damage;
 	m_HPbar->Update();
-	if (m_hp <= 0)
+	if (m_hp == 0)
 		m_isDead = true;
 }

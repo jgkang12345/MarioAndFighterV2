@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "PlayerStandOffWeapon.h"
+#include "GhostStandOffWeapon.h"
 #include "GameWnd.h"
 #include "Animation.h"
 #include "Sprite.h"
@@ -9,15 +9,13 @@
 #include "Map.h"
 #include <list>
 #include "Monster.h"
-#include "Nefendes.h"
-#include "Ghost.h"
-PlayerStandOffWeapon::~PlayerStandOffWeapon()
+GhostStandOffWeapon::~GhostStandOffWeapon()
 {
 	if (m_missile)
 		delete m_missile;
 }
 
-void PlayerStandOffWeapon::Update(Map* _map, std::vector<Map*>& _maplist)
+void GhostStandOffWeapon::Update(Map* _map, Player* player)
 {
 	m_pos.x += m_hPower;
 
@@ -44,31 +42,19 @@ void PlayerStandOffWeapon::Update(Map* _map, std::vector<Map*>& _maplist)
 		break;
 	}
 
-	Monster* m = _map->GetMonster();
-	if (m->IsCrash(m_boundRect))
-		m_isDead = true;
-
-	if (m->IsCrash(m_boundRect))
+	if (player->IsCrash(m_boundRect))
 	{
-		switch (m->GetObjectType())
-		{
-		case NefendesObj:
-			reinterpret_cast<Nefendes*>(m)->Attacked(m_damaged);
-			break;
-		case GhostObj:
-			reinterpret_cast<Ghost*>(m)->Attacked(m_damaged);
-			break;
-		}
+		player->Attacked(m_damage);
 		m_isDead = true;
 	}
 }
 
-void PlayerStandOffWeapon::Render(GameWnd* _wnd, Player* player)
+void GhostStandOffWeapon::Render(GameWnd* _wnd, Player* player)
 {
 	Sprite* sprite = m_missile->GetFrame();
 	const int width = abs((int)(sprite->GetRect().left - sprite->GetPivot().x));
 	const int height = abs((int)(sprite->GetRect().top - sprite->GetPivot().y));
 	D2D1_RECT_F dest = { m_pos.x - width, m_pos.y - height, m_pos.x + width, m_pos.y };
 	m_boundRect = dest;
-	_wnd->GetBRT()->DrawBitmap(ResourceManager::GetInstance()->GetBitmap(player->GetFilePath(), _wnd->GetRRT())->GetBitmap(), dest, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, sprite->GetRect());
+	_wnd->GetBRT()->DrawBitmap(ResourceManager::GetInstance()->GetBitmap(m_monster->GetImgKey(), _wnd->GetRRT())->GetBitmap(), dest, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, sprite->GetRect());
 }
