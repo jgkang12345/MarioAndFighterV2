@@ -162,11 +162,11 @@ void Ghost::BATTLERender(GameWnd* _wnd)
 			{
 				const int height = m_lastFrame->GetRect().bottom - m_lastFrame->GetRect().top;
 				GhostStandOffWeapon* missile = new GhostStandOffWeapon(this);
-				missile->SetPos({ m_pos.x,m_pos.y - 5 });
+				missile->SetPos({ m_pos.x,m_pos.y - 10 });
 				if (m_isRotation)
-					missile->SetHPower(5);
+					missile->SetHPower(6);
 				else
-					missile->SetHPower(-5);
+					missile->SetHPower(-6);
 				Animation* missileAnimation = reinterpret_cast<Animation*>(ResourceManager::GetInstance()->LoadBinaryData("GhostStandOff2.spr"));
 				missile->SetMissileAnimation(missileAnimation);
 				m_missiles.push_back(missile);
