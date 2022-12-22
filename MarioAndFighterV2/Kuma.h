@@ -9,7 +9,7 @@ class Kuma : public Monster
 {
 private:
 	std::queue<MONSTER_PATTERN>			 m_patternQ;
-	std::vector<GhostStandOffWeapon*>	 m_missiles;
+	std::vector<GameObject*>	 m_missiles;
 	int									 m_hp = 250;
 	int									 m_stand_off_damage = 20;
 	int									 m_attack = 5;
@@ -30,6 +30,6 @@ public:
 	int  GetHp() { return m_hp; }
 	bool IsDead() { return m_isDead; }
 	void Attacked(int damage);
-	std::vector<GhostStandOffWeapon*>& GetMissiles() { return m_missiles; }
+	std::vector<GameObject*>& GetMissiles() { return m_missiles; }
 };
 

@@ -107,6 +107,12 @@
     <ClCompile Include="Kuma.cpp">
       <Filter>object</Filter>
     </ClCompile>
+    <ClCompile Include="KumaStandOffWeapon.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="KumaSpecalWeapon.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -195,6 +201,12 @@
       <Filter>object</Filter>
     </ClInclude>
     <ClInclude Include="Kuma.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="KumaStandOffWeapon.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="KumaSpecalWeapon.h">
       <Filter>object</Filter>
     </ClInclude>
   </ItemGroup>

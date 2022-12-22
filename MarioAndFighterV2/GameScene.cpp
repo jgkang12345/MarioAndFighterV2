@@ -11,6 +11,9 @@
 #include "SceneManager.h"
 #include "GhostStandOffWeapon.h"
 #include "Ghost.h"
+#include "KumaSpecalWeapon.h"
+#include "KumaStandOffWeapon.h"
+#include "Kuma.h"
 mapSqList
 
 void GameScene::Init(GameWnd* _wnd)
@@ -64,6 +67,11 @@ void GameScene::Render(GameWnd* _wnd)
 	case GhostObj:
 		object_vector.insert(std::end(object_vector), reinterpret_cast<Ghost*>(monster)->GetMissiles().begin(), reinterpret_cast<Ghost*>(monster)->GetMissiles().end());
 		break;
+
+
+	case KumaObj:
+		object_vector.insert(std::end(object_vector), reinterpret_cast<Kuma*>(monster)->GetMissiles().begin(), reinterpret_cast<Kuma*>(monster)->GetMissiles().end());
+		break;
 	}
 
 	object_vector.insert(std::end(object_vector), m_player->GetMissiles().begin(), m_player->GetMissiles().end());
@@ -85,6 +93,10 @@ void GameScene::Render(GameWnd* _wnd)
 			reinterpret_cast<PlayerStandOffWeapon*>(item)->Render(_wnd, m_player);
 		else if (item->GetObjectType() == GStandOffObj)
 			reinterpret_cast<GhostStandOffWeapon*>(item)->Render(_wnd, m_player);
+		else if (item->GetObjectType() == KStandOffObj)
+			reinterpret_cast<KumaStandOffWeapon*>(item)->Render(_wnd, m_player);
+		else if (item->GetObjectType() == KSStandOffObj)
+			reinterpret_cast<KumaSpecalWeapon*>(item)->Render(_wnd, m_player);
 		else
 			reinterpret_cast<Monster*>(item)->Render(_wnd, m_type);
 	}

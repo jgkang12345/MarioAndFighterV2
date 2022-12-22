@@ -15,6 +15,7 @@
 #include "HPBar.h"
 #include "Nefendes.h"
 #include "Ghost.h"
+#include "Kuma.h"
 animationSqList
 enum PLAYER_ANIMATION_TYPE : int
 {
@@ -99,7 +100,7 @@ void Player::OVERWORLDUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _w
 	case KumaType:
 		m_vPower = 0;
 		m_hPower = 0;
-		// mapNext = true;
+		mapNext = true;
 		break;
 	case NefendesRect:
 		m_vPower = 0;
@@ -384,6 +385,9 @@ void Player::BATTLERender(GameWnd* _wnd, Map* _map)
 				case GhostObj:
 					reinterpret_cast<Ghost*>(_map->GetMonster())->Attacked(m_damage);
 					break;
+
+				case KumaObj:
+					reinterpret_cast<Kuma*>(_map->GetMonster())->Attacked(m_damage);
 				}
 			}
 			m_animation_vector[BATTLE_ATTACK]->Init();

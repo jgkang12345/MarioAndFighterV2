@@ -63,7 +63,9 @@ enum OBJECT_TYPE
 	KumaObj = 400,
 	PStandOffObj = 500,
 	MStandOffObj = 600,
-	GStandOffObj = 700
+	GStandOffObj = 700,
+	KStandOffObj = 800,
+	KSStandOffObj = 900
 };
 
 /// <summary>
@@ -119,5 +121,6 @@ enum MONSTER_PATTERN : int
 	MONSTER_IDEL,
 	MONSTER_STAND_OFF_ATTACK,
 	MONSTER_ATTACK,
-	MONSTER_PMOVE
+	MONSTER_PMOVE,
+	MONSTER_SPECIAL
 };
