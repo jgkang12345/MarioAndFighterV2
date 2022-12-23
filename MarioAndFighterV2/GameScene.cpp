@@ -41,6 +41,11 @@ void GameScene::Update(GameWnd* _wnd)
 		if (reinterpret_cast<Ghost*>(monster)->IsDead())
 			m_player->SetIsWin();
 		break;
+
+	case KumaObj:
+		if (reinterpret_cast<Kuma*>(monster)->IsDead())
+			m_player->SetIsWin();
+		break;
 	}
 
 	monster->Update(m_map[m_player->GetMapInedx()], m_player, m_type);

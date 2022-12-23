@@ -9,7 +9,7 @@ class NefendesStandOffWeapon : public GameObject
 private:
 	Animation* m_missile;
 	bool m_isDead = false;
-	int  m_damage = 10;
+	int  m_damage = 3;
 public:
 	NefendesStandOffWeapon() : GameObject(MStandOffObj) {};
 	virtual ~NefendesStandOffWeapon();

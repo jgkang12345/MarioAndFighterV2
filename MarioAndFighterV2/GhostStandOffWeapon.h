@@ -11,7 +11,7 @@ private:
 	Animation* m_missile;
 	Monster* m_monster;
 	bool m_isDead = false;
-	int  m_damage = 10;
+	int  m_damage = 2;
 public:
 	GhostStandOffWeapon(Monster* _monster) : GameObject(GStandOffObj) , m_monster(_monster) {};
 	virtual ~GhostStandOffWeapon();

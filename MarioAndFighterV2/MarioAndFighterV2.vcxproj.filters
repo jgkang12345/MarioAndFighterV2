@@ -113,6 +113,9 @@
     <ClCompile Include="KumaSpecalWeapon.cpp">
       <Filter>object</Filter>
     </ClCompile>
+    <ClCompile Include="EndingScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="KumaSpecalWeapon.h">
       <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingScene.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

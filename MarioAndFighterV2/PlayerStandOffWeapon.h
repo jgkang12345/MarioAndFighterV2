@@ -8,7 +8,7 @@ class PlayerStandOffWeapon : public GameObject
 private:
 	Animation* m_missile;
 	bool m_isDead = false;
-	int  m_damaged = 20;
+	int  m_damaged = 5;
 public:
 	PlayerStandOffWeapon() : GameObject(PStandOffObj) {};
 	virtual ~PlayerStandOffWeapon();

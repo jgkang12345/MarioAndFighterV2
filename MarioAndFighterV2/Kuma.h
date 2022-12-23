@@ -12,7 +12,7 @@ private:
 	std::vector<GameObject*>	 m_missiles;
 	int									 m_hp = 250;
 	int									 m_stand_off_damage = 20;
-	int									 m_attack = 5;
+	int									 m_attack = 15;
 	HPBar* m_HPbar = nullptr;
 	bool								 m_isDead = false;
 public:

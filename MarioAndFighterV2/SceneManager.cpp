@@ -5,6 +5,7 @@
 #include "LoadScene.h"
 #include "WelcomeScene.h"
 #include "Player.h"
+#include "EndingScene.h"
 SceneManager* SceneManager::m_instance = nullptr;
 
 SceneManager* SceneManager::GetInstance()
@@ -21,6 +22,7 @@ void SceneManager::Init(GameWnd* _wnd)
 	m_scene_vector[SCENE_TYPE::GAME]->Init(_wnd);
 	m_scene_vector[SCENE_TYPE::LOADING] = new LoadScene(_wnd);
 	m_scene_vector[SCENE_TYPE::WELCOME] = new WelcomeScene(_wnd);
+	m_scene_vector[SCENE_TYPE::ENDING] = new EndingScene(_wnd);
 }
 
 void SceneManager::Update(GameWnd* _wnd)
@@ -42,6 +44,9 @@ void SceneManager::Render(GameWnd* _wnd)
 void SceneManager::KeyDownBind(WPARAM _wparam)
 {
 	if (m_type == WELCOME)
+		m_scene_vector[m_type]->KeyDownBind(_wparam);
+
+	if (m_type == ENDING)
 		m_scene_vector[m_type]->KeyDownBind(_wparam);
 
 	if (m_type == GAME)

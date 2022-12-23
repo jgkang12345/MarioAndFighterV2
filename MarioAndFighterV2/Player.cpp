@@ -276,7 +276,10 @@ void Player::BATTLEUpdate(Map* _map, std::vector<Map*>& _mapLIst, GameWnd* _wnd)
 		}
 		else
 		{
-			m_mapSeq--;
+			m_mapSeq = 0;
+			m_mapNext = false;
+			SceneManager::GetInstance()->SetSceen(ENDING);
+
 		}
 	}
 }
